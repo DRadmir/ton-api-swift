@@ -17,28 +17,22 @@ let package = Package(
     dependencies: [
         .package(url: "https://github.com/apple/swift-openapi-generator", .upToNextMinor(from: "0.3.0")),
         .package(url: "https://github.com/apple/swift-openapi-runtime", .upToNextMinor(from: "0.3.0")),
+        .package(url: "https://github.com/Flight-School/AnyCodable", .upToNextMajor(from: "0.6.1"))
     ],
     targets: [
         .target(name: "TonAPI",
                 dependencies: [
-                    .product(
-                        name: "OpenAPIRuntime",
-                        package: "swift-openapi-runtime"
-                    )
+                  .byName(name: "AnyCodable")
                 ],
                 path: "Packages/ton-api",
-                exclude: ["openapi_generation"],
                 sources: ["Sources"]
                ),
         .target(name: "TonStreamingAPI",
                 dependencies: [
-                    .product(
-                        name: "OpenAPIRuntime",
-                        package: "swift-openapi-runtime"
-                    )
+                  .target(name: "StreamURLSessionTransport"),
+                  .target(name: "EventSource")
                 ],
                 path: "Packages/ton-streaming-api",
-                exclude: ["openapi_generation"],
                 sources: ["Sources"]
                ),
         .target(name: "StreamURLSessionTransport",
